@@ -20,43 +20,119 @@ class GildedRose {
 
     public void updateQuality() {
         for (final Item item : items) {
+            categorize(item).update(item);
+        }
+    }
+
+    private ItemStrategy categorize(Item item) {
+        if (item.name.equals(BRIE)) {
+            return new Cheese();
+        }
+        if (item.name.equals(BACKSTAGE)) {
+            return new BackstagePass();
+        }
+        if (item.name.equals(SULFURAS)) {
+            return new Legendary();
+        }
+        if (item.name.startsWith(CONJURED)) {
+            return new Conjured();
+        }
+        return new ItemStrategy();
+    }
+
+    private static class ItemStrategy {
+        void incrementQuality(Item item) {
+            if (item.quality < MAX_REGULAR_QUALITY) {
+                item.quality++;
+            }
+        }
+
+        void decrementQuality(Item item) {
+            if (item.quality > MIN_QUALITY) {
+                item.quality--;
+            }
+        }
+
+        void updateSellIn(Item item) {
             item.sellIn--;
-            final int factor = updateFactor(item);
-            item.quality += factor;
+        }
+
+        void updateQuality(Item item) {
+            decrementQuality(item);
+        }
+
+        void updateExpired(Item item) {
+            decrementQuality(item);
+        }
+
+        private void update(Item item) {
+            updateQuality(item);
+            updateSellIn(item);
             if (item.sellIn < SELL_IN_EXPIRED) {
-                item.quality += factor;
-            }
-            if (item.name.equals(BACKSTAGE)) {
-                if (item.sellIn < 11) {
-                    item.quality++;
-                }
-                if (item.sellIn < 6) {
-                    item.quality++;
-                }
-                if (item.sellIn <= SELL_IN_EXPIRED) {
-                    item.quality = 0;
-                }
-            }
-            correct(item);
-            if (item.name.equals(SULFURAS)) {
-                item.quality = LEGENDARY_QUALITY;
-                item.sellIn++;
+                updateExpired(item);
             }
         }
     }
 
-    private static void correct(Item item) {
-        if (item.quality <= MIN_QUALITY) {
+    private static class Legendary extends ItemStrategy {
+        @Override
+        void updateSellIn(Item item) {
+            // No effect
+        }
+
+        @Override
+        void updateExpired(Item item) {
+            item.quality = LEGENDARY_QUALITY;
+        }
+
+        @Override
+        void updateQuality(Item item) {
+            item.quality = LEGENDARY_QUALITY;
+        }
+    }
+
+    private static class Cheese extends ItemStrategy {
+
+        @Override
+        void updateExpired(Item item) {
+            incrementQuality(item);
+        }
+
+        @Override
+        void updateQuality(Item item) {
+            incrementQuality(item);
+        }
+    }
+
+    private static class BackstagePass extends ItemStrategy {
+
+        @Override
+        void updateExpired(Item item) {
             item.quality = MIN_QUALITY;
         }
-        if (item.quality >= MAX_REGULAR_QUALITY) {
-            item.quality = MAX_REGULAR_QUALITY;
+
+        @Override
+        void updateQuality(Item item) {
+            incrementQuality(item);
+            if (item.sellIn <= 10) {
+                incrementQuality(item);
+            }
+            if (item.sellIn <= 5) {
+                incrementQuality(item);
+            }
         }
     }
 
-    private static int updateFactor(final Item item) {
-        final int pow = item.name.startsWith(CONJURED) ? 2 : 1;
-        final int inversion = item.name.equals(BRIE) || item.name.equals(BACKSTAGE) ? 1 : -1;
-        return pow * inversion;
+    private static class Conjured extends ItemStrategy {
+        @Override
+        void updateExpired(Item item) {
+            updateQuality(item);
+        }
+
+        @Override
+        void updateQuality(Item item) {
+            decrementQuality(item);
+            decrementQuality(item);
+        }
     }
 }
