@@ -10,6 +10,7 @@ class GildedRose {
     static final int SELL_IN_EXPIRED = 0;
     static final int MIN_QUALITY = 0;
     static final int MAX_REGULAR_QUALITY = 50;
+    static final int LEGENDARY_QUALITY = 80;
 
     Item[] items;
 
@@ -18,49 +19,44 @@ class GildedRose {
     }
 
     public void updateQuality() {
-        for (Item item : items) {
-            if (!item.name.equals(BRIE) && !item.name.equals(BACKSTAGE)) {
-                if (item.quality > MIN_QUALITY && (!item.name.equals(SULFURAS))) {
-                    item.quality--;
-                }
-            } else {
-                if (item.quality < MAX_REGULAR_QUALITY) {
-                    item.quality++;
-
-                    if (item.name.equals(BACKSTAGE)) {
-                        if (item.sellIn < 11 && (item.quality < MAX_REGULAR_QUALITY)) {
-                            item.quality++;
-                        }
-                        if (item.sellIn < 6 && (item.quality < MAX_REGULAR_QUALITY)) {
-                            item.quality++;
-                        }
-                    }
-                }
-            }
-            if (!item.name.equals(SULFURAS)) {
-                item.sellIn--;
-            }
-            if (item.name.startsWith(CONJURED) && (item.quality > MIN_QUALITY)) {
-                item.quality--;
-            }
+        for (final Item item : items) {
+            item.sellIn--;
+            final int factor = updateFactor(item);
+            item.quality += factor;
             if (item.sellIn < SELL_IN_EXPIRED) {
-                if (item.name.startsWith(CONJURED) && (item.quality > MIN_QUALITY)) {
-                    item.quality--;
+                item.quality += factor;
+            }
+            if (item.name.equals(BACKSTAGE)) {
+                if (item.sellIn < 11) {
+                    item.quality++;
                 }
-                if (!item.name.equals(BRIE)) {
-                    if (!item.name.equals(BACKSTAGE)) {
-                        if (item.quality > MIN_QUALITY && (!item.name.equals(SULFURAS))) {
-                            item.quality--;
-                        }
-                    } else {
-                        item.quality = 0;
-                    }
-                } else {
-                    if (item.quality < MAX_REGULAR_QUALITY) {
-                        item.quality++;
-                    }
+                if (item.sellIn < 6) {
+                    item.quality++;
                 }
+                if (item.sellIn <= SELL_IN_EXPIRED) {
+                    item.quality = 0;
+                }
+            }
+            correct(item);
+            if (item.name.equals(SULFURAS)) {
+                item.quality = LEGENDARY_QUALITY;
+                item.sellIn++;
             }
         }
+    }
+
+    private static void correct(Item item) {
+        if (item.quality <= MIN_QUALITY) {
+            item.quality = MIN_QUALITY;
+        }
+        if (item.quality >= MAX_REGULAR_QUALITY) {
+            item.quality = MAX_REGULAR_QUALITY;
+        }
+    }
+
+    private static int updateFactor(final Item item) {
+        final int pow = item.name.startsWith(CONJURED) ? 2 : 1;
+        final int inversion = item.name.equals(BRIE) || item.name.equals(BACKSTAGE) ? 1 : -1;
+        return pow * inversion;
     }
 }
