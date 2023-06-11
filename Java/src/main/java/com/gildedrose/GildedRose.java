@@ -20,25 +20,19 @@ class GildedRose {
     public void updateQuality() {
         for (Item item : items) {
             if (!item.name.equals(BRIE) && !item.name.equals(BACKSTAGE)) {
-                if (item.quality > MIN_QUALITY) {
-                    if (!item.name.equals(SULFURAS)) {
-                        item.quality--;
-                    }
+                if (item.quality > MIN_QUALITY && (!item.name.equals(SULFURAS))) {
+                    item.quality--;
                 }
             } else {
                 if (item.quality < MAX_REGULAR_QUALITY) {
                     item.quality++;
 
                     if (item.name.equals(BACKSTAGE)) {
-                        if (item.sellIn < 11) {
-                            if (item.quality < MAX_REGULAR_QUALITY) {
-                                item.quality++;
-                            }
+                        if (item.sellIn < 11 && (item.quality < MAX_REGULAR_QUALITY)) {
+                            item.quality++;
                         }
-                        if (item.sellIn < 6) {
-                            if (item.quality < MAX_REGULAR_QUALITY) {
-                                item.quality++;
-                            }
+                        if (item.sellIn < 6 && (item.quality < MAX_REGULAR_QUALITY)) {
+                            item.quality++;
                         }
                     }
                 }
@@ -46,23 +40,17 @@ class GildedRose {
             if (!item.name.equals(SULFURAS)) {
                 item.sellIn--;
             }
-            if (item.name.startsWith(CONJURED)) {
-                if (item.quality > MIN_QUALITY) {
-                    item.quality--;
-                }
+            if (item.name.startsWith(CONJURED) && (item.quality > MIN_QUALITY)) {
+                item.quality--;
             }
             if (item.sellIn < SELL_IN_EXPIRED) {
-                if (item.name.startsWith(CONJURED)) {
-                    if (item.quality > MIN_QUALITY) {
-                        item.quality--;
-                    }
+                if (item.name.startsWith(CONJURED) && (item.quality > MIN_QUALITY)) {
+                    item.quality--;
                 }
                 if (!item.name.equals(BRIE)) {
                     if (!item.name.equals(BACKSTAGE)) {
-                        if (item.quality > MIN_QUALITY) {
-                            if (!item.name.equals(SULFURAS)) {
-                                item.quality--;
-                            }
+                        if (item.quality > MIN_QUALITY && (!item.name.equals(SULFURAS))) {
+                            item.quality--;
                         }
                     } else {
                         item.quality = 0;
