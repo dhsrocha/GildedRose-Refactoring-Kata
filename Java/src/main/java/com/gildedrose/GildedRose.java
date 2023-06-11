@@ -22,54 +22,54 @@ class GildedRose {
             if (!item.name.equals(BRIE) && !item.name.equals(BACKSTAGE)) {
                 if (item.quality > MIN_QUALITY) {
                     if (!item.name.equals(SULFURAS)) {
-                        item.quality = item.quality - 1;
+                        item.quality--;
                     }
                 }
             } else {
                 if (item.quality < MAX_REGULAR_QUALITY) {
-                    item.quality = item.quality + 1;
+                    item.quality++;
 
                     if (item.name.equals(BACKSTAGE)) {
                         if (item.sellIn < 11) {
                             if (item.quality < MAX_REGULAR_QUALITY) {
-                                item.quality = item.quality + 1;
+                                item.quality++;
                             }
                         }
                         if (item.sellIn < 6) {
                             if (item.quality < MAX_REGULAR_QUALITY) {
-                                item.quality = item.quality + 1;
+                                item.quality++;
                             }
                         }
                     }
                 }
             }
             if (!item.name.equals(SULFURAS)) {
-                item.sellIn = item.sellIn - 1;
+                item.sellIn--;
             }
             if (item.name.startsWith(CONJURED)) {
                 if (item.quality > MIN_QUALITY) {
-                    item.quality = item.quality - 1;
+                    item.quality--;
                 }
             }
             if (item.sellIn < SELL_IN_EXPIRED) {
                 if (item.name.startsWith(CONJURED)) {
                     if (item.quality > MIN_QUALITY) {
-                        item.quality = item.quality - 1;
+                        item.quality--;
                     }
                 }
                 if (!item.name.equals(BRIE)) {
                     if (!item.name.equals(BACKSTAGE)) {
                         if (item.quality > MIN_QUALITY) {
                             if (!item.name.equals(SULFURAS)) {
-                                item.quality = item.quality - 1;
+                                item.quality--;
                             }
                         }
                     } else {
-                        item.quality = item.quality - item.quality;
+                        item.quality = 0;
                     }
                 } else {
                     if (item.quality < MAX_REGULAR_QUALITY) {
-                        item.quality = item.quality + 1;
+                        item.quality++;
                     }
                 }
             }
