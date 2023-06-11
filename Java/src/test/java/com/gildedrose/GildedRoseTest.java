@@ -134,8 +134,8 @@ final class GildedRoseTest {
         return new Arguments[]{ //
             // "Conjured" items degrade in Quality twice as fast as normal items
             // Once the sell by date has passed, Quality degrades twice as fast
-            Arguments.of(2, 5, 3), // TODO to break on purpose
-            Arguments.of(0, 5, 1), // TODO to break on purpose
+            Arguments.of(2, 5, 3), //
+            Arguments.of(0, 5, 1), //
             Arguments.of(0, 0, 0), //
         };
     }
