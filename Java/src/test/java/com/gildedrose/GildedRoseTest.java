@@ -36,8 +36,7 @@ final class GildedRoseTest {
     void givenBrieItem_whenUpdateQuality_thenHasExpectedSellIn_andExpectedQuality(
         int providedSellIn, int providedQuality, int expectedQuality) {
         // Given
-        final String name = "Aged Brie";
-        subject = new GildedRose(new Item[]{new Item(name, providedSellIn, providedQuality)});
+        subject = new GildedRose(new Item[]{new Item(GildedRose.BRIE, providedSellIn, providedQuality)});
         // When
         subject.updateQuality();
         // Then
@@ -51,8 +50,7 @@ final class GildedRoseTest {
     void givenBackstageItem_whenUpdateQuality_thenHasExpectedName(
         int providedSellIn, int providedQuality, int expectedQuality) {
         // Given
-        final String name = "Backstage passes to a TAFKAL80ETC concert";
-        subject = new GildedRose(new Item[]{new Item(name, providedSellIn, providedQuality)});
+        subject = new GildedRose(new Item[]{new Item(GildedRose.BACKSTAGE, providedSellIn, providedQuality)});
         // When
         subject.updateQuality();
         // Then
@@ -81,7 +79,7 @@ final class GildedRoseTest {
         // Given
         final int sellIn = 1;
         final int quality = 80;
-        subject = new GildedRose(new Item[]{new Item("Sulfuras, Hand of Ragnaros", sellIn, quality)});
+        subject = new GildedRose(new Item[]{new Item(GildedRose.SULFURAS, sellIn, quality)});
         // When
         subject.updateQuality();
         // Then

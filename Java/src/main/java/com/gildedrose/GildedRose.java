@@ -18,63 +18,58 @@ class GildedRose {
     }
 
     public void updateQuality() {
-        for (int i = 0; i < items.length; i++) {
-            if (!items[i].name.equals(BRIE)
-                    && !items[i].name.equals(BACKSTAGE)) {
-                if (items[i].quality > MIN_QUALITY) {
-                    if (!items[i].name.equals(SULFURAS)) {
-                        items[i].quality = items[i].quality - 1;
+        for (Item item : items) {
+            if (!item.name.equals(BRIE) && !item.name.equals(BACKSTAGE)) {
+                if (item.quality > MIN_QUALITY) {
+                    if (!item.name.equals(SULFURAS)) {
+                        item.quality = item.quality - 1;
                     }
                 }
             } else {
-                if (items[i].quality < MAX_REGULAR_QUALITY) {
-                    items[i].quality = items[i].quality + 1;
+                if (item.quality < MAX_REGULAR_QUALITY) {
+                    item.quality = item.quality + 1;
 
-                    if (items[i].name.equals(BACKSTAGE)) {
-                        if (items[i].sellIn < 11) {
-                            if (items[i].quality < MAX_REGULAR_QUALITY) {
-                                items[i].quality = items[i].quality + 1;
+                    if (item.name.equals(BACKSTAGE)) {
+                        if (item.sellIn < 11) {
+                            if (item.quality < MAX_REGULAR_QUALITY) {
+                                item.quality = item.quality + 1;
                             }
                         }
-
-                        if (items[i].sellIn < 6) {
-                            if (items[i].quality < MAX_REGULAR_QUALITY) {
-                                items[i].quality = items[i].quality + 1;
+                        if (item.sellIn < 6) {
+                            if (item.quality < MAX_REGULAR_QUALITY) {
+                                item.quality = item.quality + 1;
                             }
                         }
                     }
                 }
             }
-
-            if (!items[i].name.equals(SULFURAS)) {
-                items[i].sellIn = items[i].sellIn - 1;
+            if (!item.name.equals(SULFURAS)) {
+                item.sellIn = item.sellIn - 1;
             }
-
-            if (items[i].name.startsWith(CONJURED)) {
-                if (items[i].quality > MIN_QUALITY) {
-                    items[i].quality = items[i].quality - 1;
+            if (item.name.startsWith(CONJURED)) {
+                if (item.quality > MIN_QUALITY) {
+                    item.quality = item.quality - 1;
                 }
             }
-
-            if (items[i].sellIn < SELL_IN_EXPIRED) {
-                if (items[i].name.startsWith(CONJURED)) {
-                    if (items[i].quality > MIN_QUALITY) {
-                        items[i].quality = items[i].quality - 1;
+            if (item.sellIn < SELL_IN_EXPIRED) {
+                if (item.name.startsWith(CONJURED)) {
+                    if (item.quality > MIN_QUALITY) {
+                        item.quality = item.quality - 1;
                     }
                 }
-                if (!items[i].name.equals(BRIE)) {
-                    if (!items[i].name.equals(BACKSTAGE)) {
-                        if (items[i].quality > MIN_QUALITY) {
-                            if (!items[i].name.equals(SULFURAS)) {
-                                items[i].quality = items[i].quality - 1;
+                if (!item.name.equals(BRIE)) {
+                    if (!item.name.equals(BACKSTAGE)) {
+                        if (item.quality > MIN_QUALITY) {
+                            if (!item.name.equals(SULFURAS)) {
+                                item.quality = item.quality - 1;
                             }
                         }
                     } else {
-                        items[i].quality = items[i].quality - items[i].quality;
+                        item.quality = item.quality - item.quality;
                     }
                 } else {
-                    if (items[i].quality < MAX_REGULAR_QUALITY) {
-                        items[i].quality = items[i].quality + 1;
+                    if (item.quality < MAX_REGULAR_QUALITY) {
+                        item.quality = item.quality + 1;
                     }
                 }
             }
